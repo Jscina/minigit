@@ -12,15 +12,21 @@ pub enum Command {
     Init,
     Add {
         #[arg(
+            required = true,
             short,
             long,
             value_name = "FILE_OR_DIR",
             help = "Path to the file or directory to add"
         )]
-        path: String,
+        paths: Vec<String>,
     },
     Commit {
-        #[arg(short, long, help = "Commit message describing the changes")]
+        #[arg(
+            required = true,
+            short,
+            long,
+            help = "Commit message describing the changes"
+        )]
         message: String,
     },
     Log,

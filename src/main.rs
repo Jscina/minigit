@@ -11,14 +11,20 @@ fn main() {
                 eprintln!("Error initializing repository: {}", e);
             }
         }
-        Some(Command::Add { path }) => {
-            println!("Adding paths: {}", path);
+        Some(Command::Add { paths }) => {
+            if let Err(e) = minigit::commands::add::run(paths) {
+                eprintln!("Error adding file: {}", e);
+            }
         }
         Some(Command::Commit { message }) => {
-            println!("Committing with message: {}", message);
+            if let Err(e) = minigit::commands::commit::run(message) {
+                eprintln!("Error committing changes: {}", e);
+            }
         }
         Some(Command::Log) => {
-            println!("Showing commit log...");
+            if let Err(e) = minigit::commands::log::run() {
+                eprintln!("Error displaying log: {}", e);
+            }
         }
         None => {
             println!("No command provided. Use --help for more information.");
