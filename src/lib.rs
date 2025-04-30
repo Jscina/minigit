@@ -13,8 +13,6 @@ pub enum Command {
     Add {
         #[arg(
             required = true,
-            short,
-            long,
             value_name = "FILE_OR_DIR",
             help = "Path to the file or directory to add"
         )]
