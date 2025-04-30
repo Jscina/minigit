@@ -28,4 +28,9 @@ impl Repo {
     pub fn index_path() -> PathBuf {
         Self::minigit_subpath("index")
     }
+
+    /// Returns the path to the ignore file.
+    pub fn minigit_ignore_path() -> PathBuf {
+        PathBuf::from(".minigitignore")
+    }
 }

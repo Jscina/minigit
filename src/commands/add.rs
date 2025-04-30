@@ -1,25 +1,25 @@
-use crate::core::{object, repo::Repo};
-use anyhow::{Context, Result};
-use std::fs;
-use std::io::Write;
+use crate::core::utils;
+use anyhow::Result;
 use std::path::Path;
 
-pub fn run(filenames: &[String]) -> Result<()> {
-    for filename in filenames {
-        let path = Path::new(filename);
+pub fn run(paths: &[String]) -> Result<()> {
+    let ignore_patterns = utils::load_ignore_patterns();
+    let mut files_added = 0;
 
-        let contents =
-            fs::read(path).with_context(|| format!("Failed to read file: {}", filename))?;
+    for path_str in paths {
+        let path = Path::new(path_str);
 
-        let hash = object::write_blob(&contents)?;
-
-        let index_line = format!("{} {}\n", filename, hash);
-        fs::OpenOptions::new()
-            .append(true)
-            .open(Repo::index_path())
-            .with_context(|| "Failed to open .minigit/index")?
-            .write_all(index_line.as_bytes())?;
+        if path.is_dir() {
+            for entry in utils::walk_dir(path, &ignore_patterns)? {
+                files_added += utils::stage_file(&entry)?;
+            }
+        } else if path.is_file() && !utils::should_ignore(path, &ignore_patterns) {
+            files_added += utils::stage_file(path)?;
+        } else {
+            eprintln!("Skipping unrecognized or ignored path: {}", path.display());
+        }
     }
-    println!("Staged {} files", filenames.len());
+
+    println!("Staged {} files", files_added);
     Ok(())
 }

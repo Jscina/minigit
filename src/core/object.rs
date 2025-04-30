@@ -36,6 +36,7 @@ pub fn write_blob(content: &[u8]) -> Result<String> {
 mod test {
     use super::*;
     use crate::{commands::init, core::repo::Repo};
+    use tempfile::tempdir;
 
     #[test]
     fn test_hash_blob() {
@@ -47,8 +48,10 @@ mod test {
     #[test]
     fn test_write_blob() {
         let content = b"Hello, world!";
+        let temp_dir = tempdir().unwrap();
+
         let hash = write_blob(content);
-        if let Err(e) = &hash {
+        if let Err(_) = &hash {
             init::run().unwrap();
         }
         let hash = write_blob(content).expect("Repo not initialized");
@@ -59,6 +62,6 @@ mod test {
         assert!(path.exists());
 
         // Clean up
-        fs::remove_dir_all(Repo::minigit_dir());
+        temp_dir.close().unwrap();
     }
 }
