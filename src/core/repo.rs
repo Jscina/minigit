@@ -1,19 +1,31 @@
 use std::path::PathBuf;
 
+/// Represents a repository in the minigit version control system.
 pub struct Repo;
 
 impl Repo {
-    pub fn minigit_dir() -> PathBuf {
+    /// Returns the path to the `.minigit` directory.
+    pub const fn minigit_dir() -> PathBuf {
         PathBuf::from(".minigit")
     }
-    pub fn objects_dir() -> PathBuf {
-        Self::minigit_dir().join("objects")
-    }
-    pub fn head_path() -> PathBuf {
-        Self::minigit_dir().join("HEAD")
+
+    /// Returns the path to a specific subdirectory or file within the `.minigit` directory.
+    fn minigit_subpath(subpath: &str) -> PathBuf {
+        Self::minigit_dir().join(subpath)
     }
 
+    /// Returns the path to the `objects` directory.
+    pub fn objects_dir() -> PathBuf {
+        Self::minigit_subpath("objects")
+    }
+
+    /// Returns the path to the `HEAD` file.
+    pub fn head_path() -> PathBuf {
+        Self::minigit_subpath("HEAD")
+    }
+
+    /// Returns the path to the `index` file.
     pub fn index_path() -> PathBuf {
-        Self::minigit_dir().join("index")
+        Self::minigit_subpath("index")
     }
 }

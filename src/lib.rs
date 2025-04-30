@@ -1,7 +1,7 @@
 use clap::{Parser, Subcommand};
 
 #[derive(Parser)]
-#[command(version, about, long_about = None)]
+#[command(version, about)]
 pub struct Cli {
     #[command(subcommand)]
     pub command: Option<Command>,
@@ -11,11 +11,16 @@ pub struct Cli {
 pub enum Command {
     Init,
     Add {
-        #[arg(short, long, value_name = "FILE_OR_DIR")]
+        #[arg(
+            short,
+            long,
+            value_name = "FILE_OR_DIR",
+            help = "Path to the file or directory to add"
+        )]
         path: String,
     },
     Commit {
-        #[arg(short, long)]
+        #[arg(short, long, help = "Commit message describing the changes")]
         message: String,
     },
     Log,
