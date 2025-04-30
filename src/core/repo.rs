@@ -5,7 +5,7 @@ pub struct Repo;
 
 impl Repo {
     /// Returns the path to the `.minigit` directory.
-    pub const fn minigit_dir() -> PathBuf {
+    pub fn minigit_dir() -> PathBuf {
         PathBuf::from(".minigit")
     }
 

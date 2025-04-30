@@ -1,12 +1,9 @@
-use anyhow::Result;
-use chrono::{DateTime, Utc};
-use serde::Serialize;
-
 use crate::core::{
     object,
     repo::Repo,
     utils::{Commit, FileEntry},
 };
+use anyhow::Result;
 use std::fs;
 
 pub fn run(message: &str) -> Result<()> {

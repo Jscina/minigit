@@ -1,10 +1,6 @@
-use crate::core::{
-    object,
-    repo::Repo,
-    utils::{Commit, FileEntry},
-};
+use crate::core::{repo::Repo, utils::Commit};
 use anyhow::{Context, Result};
-use std::{fs, path::PathBuf};
+use std::fs;
 
 pub fn run() -> Result<()> {
     let head = fs::read_to_string(Repo::head_path())?.trim().to_string();

@@ -3,7 +3,6 @@ use anyhow::Result;
 use std::{
     fs,
     io::{self, Write},
-    path::PathBuf,
 };
 
 pub fn run() -> Result<()> {

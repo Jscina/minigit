@@ -2,7 +2,6 @@ use crate::core::repo::Repo;
 use anyhow::Result;
 use sha1::{Digest, Sha1};
 use std::fs;
-use std::path::PathBuf;
 
 /// Computes the SHA-1 hash of a blob's content using Git's blob format
 ///
@@ -63,4 +62,3 @@ mod test {
         fs::remove_dir_all(Repo::minigit_dir());
     }
 }
-
